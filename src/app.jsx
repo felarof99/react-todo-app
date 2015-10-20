@@ -11,13 +11,33 @@ const RootURL = 'https://luminous-torch-1357.firebaseio.com/';
 var App = React.createClass({
     mixins: [ReactFire],
     getInitialState: function(){
-      return({
-         'todos': {}
-      });
+        return({
+            todos: {},
+            dataLoaded: false,
+        });
     },
     componentWillMount: function(){
         this.fb = new Firebase(RootURL + 'todo-app/');
         this.bindAsObject(this.fb, 'todos'); //this.state.items will have your TODOs
+        this.fb.on('value', this.handleDataLoaded);
+    },
+    handleDataLoaded: function(){
+        this.setState({
+            dataLoaded: true,
+        });
+    },
+    loadTODOList: function(){
+        if( this.state.dataLoaded ){
+            return(
+                <TODOList todos={this.state.todos}/>
+            );
+        } else {
+            return(
+                <div>
+                    <p>Loading your data...</p>
+                </div>
+            );
+        }
     },
     render: function(){
         return(
@@ -28,7 +48,7 @@ var App = React.createClass({
                         <hr />
                         <Header fbStore={this.fb}/>
                         <hr />
-                        <TODOList todos={this.state.todos}/>
+                        {this.loadTODOList()}
                     </div>
                 </div>
             </div>

@@ -5,20 +5,26 @@ TodoList = React.createClass({
     render: function(){
         var todo_list = [];
         for(var key in this.props.todos){
-            //console.log(this.props.todos[key].text);
-            //console.log(this.props.todos[key].done.toString());
-
             this.props.todos[key].key = key;
-            todo_list.push(<TodoListItem
-                todoItem={this.props.todos[key]}
-                key={key}
-                />);
+            todo_list.push(
+                <TodoListItem
+                    todoItem={this.props.todos[key]}
+                    key={key}/>
+            );
         }
-        return(
-            <div>
-                {todo_list}
-            </div>
-        );
+        if(todo_list.length === 0){
+            return(
+              <div>
+                <h4>Add TODOs to get started.</h4>
+              </div>
+            );
+        } else {
+            return (
+                <div>
+                    {todo_list}
+                </div>
+            );
+        }
     }
 });
 
