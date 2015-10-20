@@ -25,6 +25,9 @@ var TodoListItem = React.createClass({
         this.fb.update(update);
         this.setState(update);
     },
+    handleDeleteBtnClick: function(event){
+        this.fb.remove();
+    },
     render: function(){
         return(
             <div className="input-group">
@@ -38,11 +41,13 @@ var TodoListItem = React.createClass({
                     type="text"
                     className="form-control"
                     value={this.state.text}
-                    onChange={this.handleTextChange}/>
+                    onChange={this.handleTextChange}
+                    disabled={this.state.done}/>
                 <span className="input-group-btn">
                     <button
                         type="button"
-                        className="btn btn-danger">
+                        className="btn btn-danger"
+                        onClick={this.handleDeleteBtnClick}>
                         Delete
                     </button>
                 </span>
